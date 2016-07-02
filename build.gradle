@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'io.freefair:gradle-plugins:2.0.0-beta6'
+        classpath 'io.freefair:android-gradle-plugins:2.1.2'
+        classpath 'io.freefair:javadoc-io-gradle-plugin:1.0'
+        classpath 'io.realm:realm-gradle-plugin:1.0.1'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'io.freefair.git-version'
+apply plugin: 'io.freefair.javadoc-io'
+apply plugin: 'io.freefair.android-maven-jars'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'realm-android'
+
+group = "io.freefair"
+
+def isCi = "true".equals(System.getenv("CI"))
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode 1
+        versionName project.version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    lintOptions {
+        xmlReport false
+        htmlReport !isCi
+        textOutput 'stdout'
+        textReport isCi
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.7'
+    javadocIo 'com.google.code.gson:gson:2.7:javadoc'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    testCompile 'junit:junit:4.12'
+}
